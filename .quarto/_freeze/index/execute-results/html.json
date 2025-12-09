@@ -1,0 +1,15 @@
+{
+  "hash": "3ad74a38ec54a129f330eb5779be11ab",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Příprava\n\nJako přípravu si prosím nainstalujte následující R balíky: difR, tidyverse, here, readxl, mirt, ggplot2.\n\nData budeme nahrávat z balíku cermine. Pro instalaci je potřeba použít příkaz remotes::install_github(\"netique/cermine\").\n\nBudeme používat data maturity z češtiny. Je možné pracovat se souborem z libovolného jara 2016 až 2024 (nahrazením parametru years v d_item_data_links). Zveřejněná řešení jsou pro rok 2024.\n\n\n::: {.callout-note collapse=\"true\"}\n## Příprava dat\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# packages --------------------------------------------------------------------\nlibrary(cermine)\nlibrary(tidyverse)\nlibrary(here)\nlibrary(readxl)\n\n# data download ---------------------------------------------------------------\n# čeština jaro 2024\n\nd_item_data_links <- cermine::mine_links(\n  projects = \"Maturitní zkoušky\",\n  data_type = \"item\",\n  years = \"2024 - Jaro\" \n)\n\ncz_link <- d_item_data_links |>\n  filter(str_detect(file_name, \"CJ\")) |>\n  pull(file_url)\n\ntarget_path <- here(\"MZ2024j_CJ_polozkova_data.xlsx\")\n\nwithr::with_options(\n  list(timeout = 60 * 10), # 10 minutes\n  download.file(cz_link, target_path, method = 'curl')\n)\n\n\n# processing --------------------------------------------------------------\n\nitem_data_path <- here(target_path)\n\nitem_data <- readxl::read_xlsx(item_data_path)\n\nitem_data |> select(starts_with(\"b\"))\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n# A tibble: 73,858 × 34\n      b1  b2.1  b2.2    b3    b4    b5    b6    b7    b8    b9 b10.1 b10.2   b11\n   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>\n 1     2     0     0     0     1     1     1     1     1     2     1     1     3\n 2     1     1     0     0     0     1     0     0     1     2     0     0     3\n 3     2     1     0     0     1     0     0     0     1     2     1     1     3\n 4     1     1     1     1     1     1     1     1     0     1     1     1     3\n 5     1     1     0     1     0     0     0     1     1     2     0     0     3\n 6     2     0     0     1     1     0     1     1     1     1     1     0     3\n 7     2     1     1     1     1     0     1     1     1     3     1     1     3\n 8     1     0     0     0     1     0     0     1     0     2     0     0     3\n 9     2     0     0     1     0     1     0     0     0     2     0     0     3\n10     2     1     0     1     1     0     1     1     1     2     0     0     3\n# ℹ 73,848 more rows\n# ℹ 21 more variables: b12 <dbl>, b13 <dbl>, b14 <dbl>, b15 <dbl>, b16 <dbl>,\n#   b17 <dbl>, b18 <dbl>, b19 <dbl>, b20 <dbl>, b21 <dbl>, b22 <dbl>,\n#   b23 <dbl>, b24 <dbl>, b25 <dbl>, b26 <dbl>, b27 <dbl>, b28 <dbl>,\n#   b29 <dbl>, b30 <dbl>, b31 <dbl>, b32 <dbl>\n```\n\n\n:::\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

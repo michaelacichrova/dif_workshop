@@ -1,0 +1,10 @@
+---
+title: "Cvičení 3 - Sample sizes"
+format:
+  html:
+    theme: cosmo
+execute:
+  echo: true
+  message: false
+  warning: false
+---

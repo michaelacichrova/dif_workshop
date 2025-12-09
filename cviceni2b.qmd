@@ -1,0 +1,207 @@
+---
+title: "Cvičení 2 – Testování DIFu"
+format:
+  html:
+    theme: cosmo
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+load("Data.Rdata")
+library(difR)
+library(mirt)
+```
+
+---------------------------------------------------------------------
+
+## Příprava dat
+
+Budeme testovat DIF pro dvě skupiny:
+
+- prvomaturant (0/1)
+- skupiny GY4 vs GY8 (např. v proměnné smo16_nazev)
+
+1. Zkontrolujte strukturu dat.  
+2. Připravte data pro DIF podle prvomaturant.  
+3. Připravte data pro DIF podle GY4 vs GY8.
+
+::: {.callout-note collapse="true"}
+## Řešení
+
+```{r}
+str(Data)
+str(items)
+
+# --------------------
+# DIF pro prvomaturant
+# --------------------
+group_prv <- Data$prvomaturant
+keep_prv <- !is.na(group_prv)
+
+items_prv <- items[keep_prv, ]
+group_prv <- group_prv[keep_prv]
+
+table(group_prv)
+
+# --------------------
+# DIF pro GY4 vs GY8
+# --------------------
+table(Data$smo16)
+
+Data$smo16 <- as.factor(Data$smo16)
+idx_gy <- Data$smo16 %in% c("GY4", "GY8")
+
+items_gy <- items[idx_gy, ]
+group_gy  <- droplevels(Data$smo16[idx_gy])
+
+table(group_gy)
+
+group_gy_num <- ifelse(group_gy == "GY8", 1, 0)
+table(group_gy_num)
+```
+:::
+
+---------------------------------------------------------------------
+
+## Mantel–Haenszel DIF
+
+1. Otestujte DIF pomocí Mantel–Haenszelova testu.  
+2. Zobrazte položky s DIF.  
+3. Vytvořte graf pro vybranou položku.
+
+::: {.callout-note collapse="true"}
+## Řešení
+
+```{r}
+# --------------------
+# Mantel–Haenszel: prvomaturant
+# --------------------
+mh_prv <- difMH(Data = items_prv, group = group_prv, focal.name = 1)
+summary(mh_prv)
+plot(mh_prv)
+
+# --------------------
+# Mantel–Haenszel: GY4 vs GY8
+# --------------------
+mh_gy <- difMH(Data = items_gy, group = group_gy_num, focal.name = 1)
+summary(mh_gy)
+plot(mh_gy)
+```
+:::
+
+---------------------------------------------------------------------
+
+## Logistická regresní DIF analýza
+
+1. Spusťte logistický DIF test pomocí `difLogistic()`.  
+2. Rozlišujte uniformní a neuniformní DIF.  
+3. Vytvořte ICC graf pro položku s DIF.
+
+::: {.callout-note collapse="true"}
+## Řešení
+
+```{r}
+# --------------------
+# Logistická regrese: prvomaturant
+# --------------------
+log_prv <- difLogistic(
+  Data = items_prv,
+  group = group_prv,
+  focal.name = 1,
+  type = "both"
+)
+summary(log_prv)
+plot(log_prv, item = 1)
+
+# --------------------
+# Logistická regrese: GY4 vs GY8
+# --------------------
+log_gy <- difLogistic(
+  Data = items_gy,
+  group = group_gy_num,
+  focal.name = 1,
+  type = "both"
+)
+summary(log_gy)
+plot(log_gy, item = 1)
+```
+:::
+
+---------------------------------------------------------------------
+
+## DIF v IRT – 2PL model
+
+1. Fitněte dvouskupinový IRT 2PL model.  
+2. Pro každou položku proveďte LRT test mezi:
+   - volným modelem (položka může mít jiné parametry),
+   - omezeným modelem (položka stejná v obou skupinách).
+3. Identifikujte DIF položky.
+
+::: {.callout-note collapse="true"}
+## Řešení
+
+```{r}
+# --------------------
+# IRT 2PL model – prvomaturant
+# --------------------
+mod_free_prv <- multipleGroup(
+  items_prv,
+  model = 1,
+  group = group_prv
+)
+
+# test DIF pro každou položku
+lrt_prv <- DIF(mod_free_prv, which.par = c("a1", "d"))
+lrt_prv
+
+# --------------------
+# IRT 2PL model – GY4 vs GY8
+# --------------------
+mod_free_gy <- multipleGroup(
+  items_gy,
+  model = 1,
+  group = group_gy_num
+)
+
+lrt_gy <- DIF(mod_free_gy, which.par = c("a1", "d"))
+lrt_gy
+```
+:::
+
+---------------------------------------------------------------------
+
+## Porovnání metod
+
+1. Které položky byly DIF ve všech třech metodách?  
+2. Které byly DIF jen v některých?  
+3. Co může způsobovat rozdíly mezi metodami?  
+
+::: {.callout-note collapse="true"}
+## Řešení
+
+```{r}
+# extrakce DIF položek
+mh_dif_prv  <- mh_prv$DIFitems
+log_dif_prv <- log_prv$DIFitems
+irt_dif_prv <- which(lrt_prv$adjusted.p < 0.05)
+
+list(
+  MH      = mh_dif_prv,
+  Logistic = log_dif_prv,
+  IRT      = irt_dif_prv
+)
+```
+:::
+
+---------------------------------------------------------------------
+
+## Shrnutí
+
+- Vyzkoušeli jste tři metody testování DIF: MH, logistickou regresi a IRT.  
+- Ukázali jste si rozdíly mezi nimi.  
+- Otestovali jste DIF pro dvě různé skupiny: prvomaturant vs ostatní a GY4 vs GY8.  

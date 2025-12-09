@@ -1,0 +1,23 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Materiály k workshopu 11.12.2025"
+  author: "Michaela Cichrová"
+  chapters:
+    - index.qmd
+    - cviceni1.qmd
+    - cviceni2.qmd
+    - cviceni3.qmd
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+  pdf:
+    documentclass: scrreprt
+
+number-sections: false
+

@@ -1,0 +1,181 @@
+---
+title: "Cvičení 1 – Explorační analýza"
+format:
+  html:
+    theme: cosmo
+execute:
+  echo: true
+  message: false
+  warning: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+load("Data.Rdata")
+```
+
+
+---
+
+## Úkol 1 – Příprava dat
+
+1. Načtěte dataset "item_data", seznamte se s jejich strukturou pomocí funkce summary.
+2. Vytvořte nový dataset "Data", který bude obsahovat kategoriální proměnné smo16, smo16_nazev, prvomaturant, termin a položky s binárním hodnocením (bodové hodnocení 0/1).
+3. Z datasetu "Data" vytvořte nový dataset "items", který bude obsahovat pouze položková data.
+
+
+::: {.callout-note collapse="true"}
+## Řešení Úkolu 1
+
+```{r}
+
+# Část 1
+summary(item_data)
+str(item_data)
+
+# Část 2
+Data <- item_data
+
+# A) Vybereme kategoriální proměnné ----------------------------------------
+cat_vars <- c("smo16", "smo16_nazev", "prvomaturant", "termin")
+
+# B) Detekce binárních položek (0/1 skóry) --------------------------------
+
+# vyfiltrujeme proměnné začínající na b (bodové ohodnocení otázek)
+b_vars <- grep("^b", names(item_data), value = TRUE)
+
+# z nich vyfiltrujeme binární položky
+binary_items <- b_vars[
+  sapply(item_data[b_vars], function(x) {
+    u <- unique(na.omit(x))
+    length(u) == 2 && all(u %in% c(0, 1))
+  })
+]
+
+# kontrola
+binary_items 
+
+
+# C) Vytvoříme finální dataset Data ----------------------------------------
+
+Data <- Data[, c(cat_vars, binary_items)]
+
+# Zkontrolujeme výslednou strukturu
+str(Data)
+summary(Data)
+
+# Část 3
+items <- Data[,-c(1:4)]
+```
+
+:::
+
+---
+
+## Úkol 2 – Celkové skóre a jeho rozdělení
+
+1. Spočítejte celkové skóre binárních položek každého studenta (proměnná score) a standardizované skóre binárních položek (proměnná std_score)
+2. Podívejte se na základní popisné statistiky.  
+3. Vykreslete histogram.
+
+::: {.callout-tip collapse="true"}
+## Nápověda k Úkolu 2
+Celkové skóre: `rowSums(items)`. Histogram: `hist(score)`.
+:::
+
+::: {.callout-note collapse="true"}
+## Řešení Úkolu 2
+
+```{r}
+score <- rowSums(items)
+
+summary(score)
+
+hist(
+  score,
+  main = "Histogram celkového skóre",
+  xlab = "Celkové skóre",
+  ylab = "Frekvence"
+)
+```
+
+:::
+
+---
+
+## Úkol 3 – Rozdíly ve skóre mezi skupinami
+
+Vyberte si jednu z kategoriálních proměnných
+1. Porovnejte rozdělení skóre mezi skupinami pomocí boxplotů.
+2. Spočítejte průměrné skóre podle skupin.
+3. Spočítejte počet respondentů v jednotlivých kategoriích.
+
+::: {.callout-tip collapse="true"}
+## Nápověda k Úkolu 3
+Použijte boxplot(score ~ group), tapply(score, group, mean) a table(group) nebo tapply(score, group, length).
+:::
+
+::: {.callout-note collapse="true"}
+## Řešení Úkolu 3
+
+```{r}
+# prvomaturant
+group <- Data$prvomaturant
+boxplot(
+  score ~ group,
+  main = "Distribuce skóre podle skupiny",
+  xlab = "Skupina",
+  ylab = "Celkové skóre"
+)
+
+tapply(score, group, mean)
+
+tapply(score, group, length)
+
+# termin
+group <- Data$termin
+boxplot(
+  score ~ group,
+  main = "Distribuce skóre podle skupiny",
+  xlab = "Skupina",
+  ylab = "Celkové skóre"
+)
+
+tapply(score, group, mean)
+
+tapply(score, group, length)
+
+# pro smo16 cat_vars <- c("smo16", "smo16_nazev", "prvomaturant", "termin")
+group <- Data$smo16
+boxplot(
+  score ~ group,
+  main = "Distribuce skóre podle skupiny",
+  xlab = "Skupina",
+  ylab = "Celkové skóre"
+)
+
+tapply(score, group, mean)
+
+tapply(score, group, length)
+
+# pro smo16_nazev
+group <- Data$smo16_nazev
+boxplot(
+  score ~ group,
+  main = "Distribuce skóre podle skupiny",
+  xlab = "Skupina",
+  ylab = "Celkové skóre"
+)
+
+tapply(score, group, mean)
+
+tapply(score, group, length)
+
+```
+
+:::
+
+
+
+

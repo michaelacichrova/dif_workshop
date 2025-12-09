@@ -1,0 +1,50 @@
+# Příprava
+
+Jako přípravu si prosím nainstalujte následující R balíky: difR, tidyverse, here, readxl, mirt, ggplot2.
+
+Data budeme nahrávat z balíku cermine. Pro instalaci je potřeba použít příkaz remotes::install_github("netique/cermine").
+
+Budeme používat data maturity z češtiny. Je možné pracovat se souborem z libovolného jara 2016 až 2024 (nahrazením parametru years v d_item_data_links). Zveřejněná řešení jsou pro rok 2024.
+
+
+::: {.callout-note collapse="true"}
+## Příprava dat
+
+```{r}
+#| warning: false
+#| message: false
+# packages --------------------------------------------------------------------
+library(cermine)
+library(tidyverse)
+library(here)
+library(readxl)
+
+# data download ---------------------------------------------------------------
+# čeština jaro 2024
+
+d_item_data_links <- cermine::mine_links(
+  projects = "Maturitní zkoušky",
+  data_type = "item",
+  years = "2024 - Jaro" 
+)
+
+cz_link <- d_item_data_links |>
+  filter(str_detect(file_name, "CJ")) |>
+  pull(file_url)
+
+target_path <- here("MZ2024j_CJ_polozkova_data.xlsx")
+
+withr::with_options(
+  list(timeout = 60 * 10), # 10 minutes
+  download.file(cz_link, target_path, method = 'curl')
+)
+
+
+# processing --------------------------------------------------------------
+
+item_data_path <- here(target_path)
+
+item_data <- readxl::read_xlsx(item_data_path)
+
+item_data |> select(starts_with("b"))
+```
