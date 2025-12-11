@@ -48,3 +48,9 @@ item_data <- readxl::read_xlsx(item_data_path)
 
 item_data |> select(starts_with("b"))
 ```
+:::
+
+## Prezentace
+Prezentaci najdete [na tomto odkazu](/DIF_workshop.pdf).
+
+
