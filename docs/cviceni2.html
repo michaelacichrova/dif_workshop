@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -42,7 +77,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-70a47bd5681a7291082a5b9f83d58762.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-27c261d06b905028a18691de25d09dde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -125,7 +160,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./cviceni3.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Cvičení 3 - Sample sizes</span></a>
+  <a href="./cviceni3.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Cvičení 3 – Effect sizes</span></a>
   </div>
 </li>
     </ul>
@@ -133,8 +168,17 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#úkol-1---mantelhaenszel" id="toc-úkol-1---mantelhaenszel" class="nav-link active" data-scroll-target="#úkol-1---mantelhaenszel">Úkol 1 - Mantel–Haenszel</a></li>
+  <li><a href="#úkol-2---logistická-regrese" id="toc-úkol-2---logistická-regrese" class="nav-link" data-scroll-target="#úkol-2---logistická-regrese">Úkol 2 - Logistická regrese</a></li>
+  <li><a href="#dif-v-irt-2pl-model" id="toc-dif-v-irt-2pl-model" class="nav-link" data-scroll-target="#dif-v-irt-2pl-model">DIF v IRT – 2PL model</a></li>
+  <li><a href="#porovnání-metod" id="toc-porovnání-metod" class="nav-link" data-scroll-target="#porovnání-metod">Porovnání metod</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -158,8 +202,1488 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<hr>
+<section id="úkol-1---mantelhaenszel" class="level2">
+<h2 class="anchored" data-anchor-id="úkol-1---mantelhaenszel">Úkol 1 - Mantel–Haenszel</h2>
+<p>Otestujte (uniformní) DIF pomocí Mantel–Haenszelova testu pro 1) prvomaturant vs.&nbsp;ostatní nebo 2) osmiletá vs.&nbsp;čtyřletá gymnázia. Použijte funkci “difMH()” z balíčku “difR.”</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Nápověda k Úkolu 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Pro GY4 vs.&nbsp;GY8 použijte funkci subset(). Bude potřeba překódovat “GY4” na “0”, “GY8” na “1”.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Řešení
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(difR)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Mantel–Haenszel: prvomaturant</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>(MH1 <span class="ot">&lt;-</span> <span class="fu">difMH</span>(<span class="at">Data =</span> Data[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)], <span class="at">group =</span> Data<span class="sc">$</span>prvomaturant, <span class="at">focal.name =</span> <span class="st">"0"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Detection of Differential Item Functioning using Mantel-Haenszel method 
+with continuity correction and without item purification
+
+Results based on asymptotic inference 
+ 
+Matching variable: test score 
+ 
+No set of anchor items was provided 
+ 
+No p-value adjustment for multiple comparisons 
+ 
+Mantel-Haenszel Chi-square statistic: 
+ 
+      Stat.    P-value     
+b2.1    2.7105   0.0997 .  
+b2.2    5.4902   0.0191 *  
+b3     15.2760   0.0001 ***
+b4      8.7310   0.0031 ** 
+b5      0.1634   0.6861    
+b6      0.3104   0.5774    
+b7      8.7119   0.0032 ** 
+b8      5.5270   0.0187 *  
+b10.1   3.5706   0.0588 .  
+b10.2  21.4296   0.0000 ***
+b14    22.7558   0.0000 ***
+b15     2.9811   0.0842 .  
+b16    13.6662   0.0002 ***
+b17   100.1085   0.0000 ***
+b18     2.5347   0.1114    
+b20     0.0156   0.9007    
+b21    11.7170   0.0006 ***
+b22    21.3688   0.0000 ***
+b23    14.6165   0.0001 ***
+b25     0.0379   0.8456    
+b26     0.1615   0.6878    
+b27    20.5372   0.0000 ***
+b28     6.5133   0.0107 *  
+b31     4.3907   0.0361 *  
+b32     3.1438   0.0762 .  
+
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1  
+
+Detection threshold: 3.8415 (significance level: 0.05)
+
+Items detected as DIF items: 
+      
+ b2.2 
+ b3   
+ b4   
+ b7   
+ b8   
+ b10.2
+ b14  
+ b16  
+ b17  
+ b21  
+ b22  
+ b23  
+ b27  
+ b28  
+ b31  
+
+ 
+Effect size (ETS Delta scale): 
+ 
+Effect size code: 
+ 'A': negligible effect 
+ 'B': moderate effect 
+ 'C': large effect 
+ 
+      alphaMH deltaMH  
+b2.1   1.0989 -0.2215 A
+b2.2   0.8769  0.3087 A
+b3     1.2724 -0.5662 A
+b4     1.1754 -0.3799 A
+b5     0.9769  0.0548 A
+b6     1.0334 -0.0771 A
+b7     0.8549  0.3685 A
+b8     1.1425 -0.3131 A
+b10.1  1.1160 -0.2580 A
+b10.2  1.3202 -0.6528 A
+b14    0.7812  0.5803 A
+b15    1.1110 -0.2474 A
+b16    0.8222  0.4602 A
+b17    0.5638  1.3468 B
+b18    0.9226  0.1892 A
+b20    1.0080 -0.0187 A
+b21    0.8326  0.4305 A
+b22    1.3287 -0.6679 A
+b23    1.2268 -0.4804 A
+b25    0.9857  0.0339 A
+b26    1.0247 -0.0573 A
+b27    0.7907  0.5518 A
+b28    1.1516 -0.3316 A
+b31    1.1176 -0.2614 A
+b32    1.0995 -0.2230 A
+
+Effect size codes: 0 'A' 1.0 'B' 1.5 'C' 
+ (for absolute values of 'deltaMH') 
+ 
+Output was not captured! </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Mantel–Haenszel: GY4 vs GY8</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># potřebujeme subset</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>Data_gy <span class="ot">&lt;-</span> <span class="fu">subset</span>(Data, smo16 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"GY4"</span>, <span class="st">"GY8"</span>))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># smo16 musíme přejmenovat na "0", "1"</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>Data_gy<span class="sc">$</span>smo16 <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">as.numeric</span>(Data_gy<span class="sc">$</span>smo16 <span class="sc">==</span> <span class="st">"GY4"</span>))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>(MH2 <span class="ot">&lt;-</span> <span class="fu">difMH</span>(<span class="at">Data =</span> Data_gy[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)], <span class="at">group =</span> Data_gy<span class="sc">$</span>smo16, <span class="at">focal.name =</span> <span class="st">"1"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Detection of Differential Item Functioning using Mantel-Haenszel method 
+with continuity correction and without item purification
+
+Results based on asymptotic inference 
+ 
+Matching variable: test score 
+ 
+No set of anchor items was provided 
+ 
+No p-value adjustment for multiple comparisons 
+ 
+Mantel-Haenszel Chi-square statistic: 
+ 
+      Stat.   P-value    
+b2.1   1.1815  0.2770    
+b2.2   1.1790  0.2776    
+b3     3.8265  0.0504 .  
+b4     0.4106  0.5217    
+b5    30.9122  0.0000 ***
+b6    22.1656  0.0000 ***
+b7     0.6113  0.4343    
+b8     8.0441  0.0046 ** 
+b10.1  1.6779  0.1952    
+b10.2 25.2732  0.0000 ***
+b14    1.4252  0.2326    
+b15    0.7706  0.3800    
+b16    3.0557  0.0805 .  
+b17   22.3681  0.0000 ***
+b18    0.1545  0.6943    
+b20    1.2947  0.2552    
+b21    4.6151  0.0317 *  
+b22    1.6742  0.1957    
+b23    3.9555  0.0467 *  
+b25    0.3463  0.5562    
+b26    0.0023  0.9617    
+b27   29.7527  0.0000 ***
+b28    1.4613  0.2267    
+b31    1.0923  0.2960    
+b32   54.2648  0.0000 ***
+
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1  
+
+Detection threshold: 3.8415 (significance level: 0.05)
+
+Items detected as DIF items: 
+      
+ b5   
+ b6   
+ b8   
+ b10.2
+ b17  
+ b21  
+ b23  
+ b27  
+ b32  
+
+ 
+Effect size (ETS Delta scale): 
+ 
+Effect size code: 
+ 'A': negligible effect 
+ 'B': moderate effect 
+ 'C': large effect 
+ 
+      alphaMH deltaMH  
+b2.1   0.9176  0.2022 A
+b2.2   1.0503 -0.1153 A
+b3     0.8694  0.3290 A
+b4     1.0511 -0.1172 A
+b5     1.3851 -0.7655 A
+b6     1.3774 -0.7525 A
+b7     0.9629  0.0888 A
+b8     1.2107 -0.4493 A
+b10.1  1.0541 -0.1237 A
+b10.2  0.8261  0.4491 A
+b14    1.0594 -0.1357 A
+b15    0.9468  0.1285 A
+b16    0.9452  0.1325 A
+b17    0.8446  0.3969 A
+b18    0.9871  0.0304 A
+b20    1.0592 -0.1353 A
+b21    1.0747 -0.1694 A
+b22    1.1711 -0.3711 A
+b23    1.1487 -0.3259 A
+b25    0.9502  0.1202 A
+b26    0.9941  0.0138 A
+b27    1.2126 -0.4531 A
+b28    0.9540  0.1106 A
+b31    1.0448 -0.1029 A
+b32    0.7327  0.7308 A
+
+Effect size codes: 0 'A' 1.0 'B' 1.5 'C' 
+ (for absolute values of 'deltaMH') 
+ 
+Output was not captured! </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="úkol-2---logistická-regrese" class="level2">
+<h2 class="anchored" data-anchor-id="úkol-2---logistická-regrese">Úkol 2 - Logistická regrese</h2>
+<p>Otestujte DIF pomocí logistické regrese pro 1) prvomaturant vs.&nbsp;ostatní nebo 2) osmiletá vs.&nbsp;čtyřletá gymnázia. Použijte funkci “difLogistic()” z balíčku “difR.”</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Nápověda k Úkolu 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>V difR někdy blbne formátování. V případě chyby formátování lze použít “as.data.frame()” pro Data a “as.factor()” pro skupinu.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Řešení
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Jakýkoliv DIF
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(difNLR)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Logistická regrese: prvomaturant</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>(LR1 <span class="ot">&lt;-</span> <span class="fu">difLogistic</span>(<span class="at">Data =</span> <span class="fu">as.data.frame</span>(Data[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)]), <span class="at">group =</span> <span class="fu">as.factor</span>(Data<span class="sc">$</span>prvomaturant), <span class="at">type =</span> <span class="st">"both"</span>, <span class="at">focal.name =</span> <span class="st">"0"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Detection of both types of Differential Item Functioning
+using Logistic regression method, without item purification
+and with LRT DIF statistic
+
+Matching variable: test score 
+ 
+No set of anchor items was provided 
+ 
+No p-value adjustment for multiple comparisons 
+ 
+Logistic regression DIF statistic: 
+ 
+      Stat.    P-value     
+b2.1   17.0956   0.0002 ***
+b2.2   58.9247   0.0000 ***
+b3     17.1660   0.0002 ***
+b4     33.6993   0.0000 ***
+b5     11.4645   0.0032 ** 
+b6      2.1569   0.3401    
+b7     25.1931   0.0000 ***
+b8      4.5602   0.1023    
+b10.1  12.0531   0.0024 ** 
+b10.2  25.5492   0.0000 ***
+b14    99.2794   0.0000 ***
+b15     1.5759   0.4548    
+b16    59.4236   0.0000 ***
+b17   191.3145   0.0000 ***
+b18     3.3378   0.1885    
+b20    25.8067   0.0000 ***
+b21    69.3776   0.0000 ***
+b22    22.4593   0.0000 ***
+b23    20.7511   0.0000 ***
+b25     7.2349   0.0269 *  
+b26     7.8427   0.0198 *  
+b27    50.5368   0.0000 ***
+b28     7.6066   0.0223 *  
+b31    54.0298   0.0000 ***
+b32    55.8621   0.0000 ***
+
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1  
+
+Detection threshold: 5.9915 (significance level: 0.05)
+
+Items detected as DIF items:
+      
+ b2.1 
+ b2.2 
+ b3   
+ b4   
+ b5   
+ b7   
+ b10.1
+ b10.2
+ b14  
+ b16  
+ b17  
+ b20  
+ b21  
+ b22  
+ b23  
+ b25  
+ b26  
+ b27  
+ b28  
+ b31  
+ b32  
+
+ 
+Effect size (Nagelkerke's R^2): 
+ 
+Effect size code: 
+ 'A': negligible effect 
+ 'B': moderate effect 
+ 'C': large effect 
+ 
+      R^2 ZT JG
+b2.1  0   A  A 
+b2.2  0   A  A 
+b3    0   A  A 
+b4    0   A  A 
+b5    0   A  A 
+b6    0   A  A 
+b7    0   A  A 
+b8    0   A  A 
+b10.1 0   A  A 
+b10.2 0   A  A 
+b14   0   A  A 
+b15   0   A  A 
+b16   0   A  A 
+b17   0   A  A 
+b18   0   A  A 
+b20   0   A  A 
+b21   0   A  A 
+b22   0   A  A 
+b23   0   A  A 
+b25   0   A  A 
+b26   0   A  A 
+b27   0   A  A 
+b28   0   A  A 
+b31   0   A  A 
+b32   0   A  A 
+
+Effect size codes: 
+ Zumbo &amp; Thomas (ZT): 0 'A' 0.13 'B' 0.26 'C' 1 
+ Jodoin &amp; Gierl (JG): 0 'A' 0.035 'B' 0.07 'C' 1 
+
+ Output was not captured! </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Logistická regrese: GY4 vs GY8</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>(LR2 <span class="ot">&lt;-</span> <span class="fu">difLogistic</span>(<span class="at">Data =</span> <span class="fu">as.data.frame</span>(Data_gy[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)]),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">group =</span> <span class="fu">as.factor</span>(Data_gy<span class="sc">$</span>smo16), <span class="at">type =</span> <span class="st">"both"</span>, <span class="at">focal.name =</span> <span class="st">"1"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Detection of both types of Differential Item Functioning
+using Logistic regression method, without item purification
+and with LRT DIF statistic
+
+Matching variable: test score 
+ 
+No set of anchor items was provided 
+ 
+No p-value adjustment for multiple comparisons 
+ 
+Logistic regression DIF statistic: 
+ 
+      Stat.   P-value    
+b2.1   0.6684  0.7159    
+b2.2  10.2902  0.0058 ** 
+b3     2.9172  0.2326    
+b4     3.7121  0.1563    
+b5    51.1483  0.0000 ***
+b6    32.3868  0.0000 ***
+b7     7.1679  0.0278 *  
+b8    16.5016  0.0003 ***
+b10.1 18.4105  0.0001 ***
+b10.2 36.2138  0.0000 ***
+b14   17.4871  0.0002 ***
+b15    2.4678  0.2912    
+b16   29.5829  0.0000 ***
+b17   30.3613  0.0000 ***
+b18    9.2083  0.0100 ** 
+b20    3.8948  0.1426    
+b21   23.1736  0.0000 ***
+b22    4.4929  0.1058    
+b23   11.7165  0.0029 ** 
+b25    1.9492  0.3773    
+b26    0.4334  0.8052    
+b27   53.5747  0.0000 ***
+b28    8.0525  0.0178 *  
+b31    6.2528  0.0439 *  
+b32   41.0722  0.0000 ***
+
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1  
+
+Detection threshold: 5.9915 (significance level: 0.05)
+
+Items detected as DIF items:
+      
+ b2.2 
+ b5   
+ b6   
+ b7   
+ b8   
+ b10.1
+ b10.2
+ b14  
+ b16  
+ b17  
+ b18  
+ b21  
+ b23  
+ b27  
+ b28  
+ b31  
+ b32  
+
+ 
+Effect size (Nagelkerke's R^2): 
+ 
+Effect size code: 
+ 'A': negligible effect 
+ 'B': moderate effect 
+ 'C': large effect 
+ 
+      R^2    ZT JG
+b2.1  0.0000 A  A 
+b2.2  0.0000 A  A 
+b3    0.0001 A  A 
+b4    0.0000 A  A 
+b5    0.0000 A  A 
+b6    0.0000 A  A 
+b7    0.0003 A  A 
+b8    0.9298 C  C 
+b10.1 0.0000 A  A 
+b10.2 0.0000 A  A 
+b14   0.0000 A  A 
+b15   0.0001 A  A 
+b16   0.0000 A  A 
+b17   0.0000 A  A 
+b18   0.0004 A  A 
+b20   0.0000 A  A 
+b21   0.0000 A  A 
+b22   0.0002 A  A 
+b23   0.0005 A  A 
+b25   0.0001 A  A 
+b26   0.0000 A  A 
+b27   0.0000 A  A 
+b28   0.0000 A  A 
+b31   0.0000 A  A 
+b32   0.0000 A  A 
+
+Effect size codes: 
+ Zumbo &amp; Thomas (ZT): 0 'A' 0.13 'B' 0.26 'C' 1 
+ Jodoin &amp; Gierl (JG): 0 'A' 0.035 'B' 0.07 'C' 1 
+
+ Output was not captured! </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Neuniformní DIF
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(difNLR)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Logistická regrese: prvomaturant</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>(LR1 <span class="ot">&lt;-</span> <span class="fu">difLogistic</span>(<span class="at">Data =</span> <span class="fu">as.data.frame</span>(Data[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)]), <span class="at">group =</span> <span class="fu">as.factor</span>(Data<span class="sc">$</span>prvomaturant), <span class="at">type =</span> <span class="st">"nudif"</span>,      <span class="at">focal.name =</span> <span class="st">"0"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Detection of nonuniform Differential Item Functioning
+using Logistic regression method, without item purification
+and with LRT DIF statistic
+
+Matching variable: test score 
+ 
+No set of anchor items was provided 
+ 
+No p-value adjustment for multiple comparisons 
+ 
+Logistic regression DIF statistic: 
+ 
+      Stat.   P-value    
+b2.1  17.0858  0.0000 ***
+b2.2  32.9711  0.0000 ***
+b3     0.0099  0.9207    
+b4    32.3707  0.0000 ***
+b5     5.1174  0.0237 *  
+b6     1.0779  0.2992    
+b7     0.5774  0.4473    
+b8     3.6327  0.0567 .  
+b10.1 11.9088  0.0006 ***
+b10.2 15.8081  0.0001 ***
+b14   25.6249  0.0000 ***
+b15    0.4998  0.4796    
+b16   16.0876  0.0001 ***
+b17   22.8715  0.0000 ***
+b18    0.0105  0.9182    
+b20   18.9579  0.0000 ***
+b21   27.4178  0.0000 ***
+b22    8.7406  0.0031 ** 
+b23   18.1282  0.0000 ***
+b25    5.6875  0.0171 *  
+b26    7.1847  0.0074 ** 
+b27    2.4984  0.1140    
+b28    6.3134  0.0120 *  
+b31   53.9952  0.0000 ***
+b32   54.9842  0.0000 ***
+
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1  
+
+Detection threshold: 3.8415 (significance level: 0.05)
+
+Items detected as nonuniform DIF items:
+      
+ b2.1 
+ b2.2 
+ b4   
+ b5   
+ b10.1
+ b10.2
+ b14  
+ b16  
+ b17  
+ b20  
+ b21  
+ b22  
+ b23  
+ b25  
+ b26  
+ b28  
+ b31  
+ b32  
+
+ 
+Effect size (Nagelkerke's R^2): 
+ 
+Effect size code: 
+ 'A': negligible effect 
+ 'B': moderate effect 
+ 'C': large effect 
+ 
+      R^2 ZT JG
+b2.1  0   A  A 
+b2.2  0   A  A 
+b3    0   A  A 
+b4    0   A  A 
+b5    0   A  A 
+b6    0   A  A 
+b7    0   A  A 
+b8    0   A  A 
+b10.1 0   A  A 
+b10.2 0   A  A 
+b14   0   A  A 
+b15   0   A  A 
+b16   0   A  A 
+b17   0   A  A 
+b18   0   A  A 
+b20   0   A  A 
+b21   0   A  A 
+b22   0   A  A 
+b23   0   A  A 
+b25   0   A  A 
+b26   0   A  A 
+b27   0   A  A 
+b28   0   A  A 
+b31   0   A  A 
+b32   0   A  A 
+
+Effect size codes: 
+ Zumbo &amp; Thomas (ZT): 0 'A' 0.13 'B' 0.26 'C' 1 
+ Jodoin &amp; Gierl (JG): 0 'A' 0.035 'B' 0.07 'C' 1 
+
+ Output was not captured! </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Logistická regrese: GY4 vs GY8</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>(LR2 <span class="ot">&lt;-</span> <span class="fu">difLogistic</span>(<span class="at">Data =</span> <span class="fu">as.data.frame</span>(Data_gy[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)]),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">group =</span> <span class="fu">as.factor</span>(Data_gy<span class="sc">$</span>smo16),       </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">type =</span> <span class="st">"nudif"</span>, <span class="at">focal.name =</span> <span class="st">"1"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Detection of nonuniform Differential Item Functioning
+using Logistic regression method, without item purification
+and with LRT DIF statistic
+
+Matching variable: test score 
+ 
+No set of anchor items was provided 
+ 
+No p-value adjustment for multiple comparisons 
+ 
+Logistic regression DIF statistic: 
+ 
+      Stat.   P-value    
+b2.1   0.6333  0.4261    
+b2.2   6.4872  0.0109 *  
+b3     0.4315  0.5113    
+b4     1.9539  0.1622    
+b5     8.8450  0.0029 ** 
+b6     1.7785  0.1823    
+b7     7.1677  0.0074 ** 
+b8     3.2958  0.0695 .  
+b10.1 13.7535  0.0002 ***
+b10.2 19.5445  0.0000 ***
+b14   12.4526  0.0004 ***
+b15    2.3453  0.1257    
+b16   29.4842  0.0000 ***
+b17   18.8828  0.0000 ***
+b18    8.8944  0.0029 ** 
+b20    0.0327  0.8565    
+b21   11.2186  0.0008 ***
+b22    0.8458  0.3577    
+b23    5.1127  0.0238 *  
+b25    1.9142  0.1665    
+b26    0.3174  0.5732    
+b27    9.2839  0.0023 ** 
+b28    7.9514  0.0048 ** 
+b31    2.8945  0.0889 .  
+b32    0.7270  0.3939    
+
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1  
+
+Detection threshold: 3.8415 (significance level: 0.05)
+
+Items detected as nonuniform DIF items:
+      
+ b2.2 
+ b5   
+ b7   
+ b10.1
+ b10.2
+ b14  
+ b16  
+ b17  
+ b18  
+ b21  
+ b23  
+ b27  
+ b28  
+
+ 
+Effect size (Nagelkerke's R^2): 
+ 
+Effect size code: 
+ 'A': negligible effect 
+ 'B': moderate effect 
+ 'C': large effect 
+ 
+      R^2   ZT JG
+b2.1  0e+00 A  A 
+b2.2  0e+00 A  A 
+b3    0e+00 A  A 
+b4    0e+00 A  A 
+b5    0e+00 A  A 
+b6    0e+00 A  A 
+b7    3e-04 A  A 
+b8    0e+00 A  A 
+b10.1 0e+00 A  A 
+b10.2 0e+00 A  A 
+b14   0e+00 A  A 
+b15   1e-04 A  A 
+b16   0e+00 A  A 
+b17   0e+00 A  A 
+b18   4e-04 A  A 
+b20   0e+00 A  A 
+b21   0e+00 A  A 
+b22   0e+00 A  A 
+b23   2e-04 A  A 
+b25   1e-04 A  A 
+b26   0e+00 A  A 
+b27   0e+00 A  A 
+b28   0e+00 A  A 
+b31   0e+00 A  A 
+b32   0e+00 A  A 
+
+Effect size codes: 
+ Zumbo &amp; Thomas (ZT): 0 'A' 0.13 'B' 0.26 'C' 1 
+ Jodoin &amp; Gierl (JG): 0 'A' 0.035 'B' 0.07 'C' 1 
+
+ Output was not captured! </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Uniformní DIF
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(difNLR)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Logistická regrese: prvomaturant</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>(LR1 <span class="ot">&lt;-</span> <span class="fu">difLogistic</span>(<span class="at">Data =</span> <span class="fu">as.data.frame</span>(Data[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)]), <span class="at">group =</span> <span class="fu">as.factor</span>(Data<span class="sc">$</span>prvomaturant), <span class="at">type =</span> <span class="st">"udif"</span>,      <span class="at">focal.name =</span> <span class="st">"0"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Detection of uniform Differential Item Functioning
+using Logistic regression method, without item purification
+and with LRT DIF statistic
+
+Matching variable: test score 
+ 
+No set of anchor items was provided 
+ 
+No p-value adjustment for multiple comparisons 
+ 
+Logistic regression DIF statistic: 
+ 
+      Stat.    P-value     
+b2.1    0.0097   0.9214    
+b2.2   25.9536   0.0000 ***
+b3     17.1561   0.0000 ***
+b4      1.3287   0.2490    
+b5      6.3471   0.0118 *  
+b6      1.0790   0.2989    
+b7     24.6157   0.0000 ***
+b8      0.9275   0.3355    
+b10.1   0.1443   0.7040    
+b10.2   9.7411   0.0018 ** 
+b14    73.6545   0.0000 ***
+b15     1.0761   0.2996    
+b16    43.3360   0.0000 ***
+b17   168.4431   0.0000 ***
+b18     3.3272   0.0681 .  
+b20     6.8488   0.0089 ** 
+b21    41.9598   0.0000 ***
+b22    13.7187   0.0002 ***
+b23     2.6230   0.1053    
+b25     1.5474   0.2135    
+b26     0.6580   0.4173    
+b27    48.0384   0.0000 ***
+b28     1.2932   0.2555    
+b31     0.0346   0.8524    
+b32     0.8779   0.3488    
+
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1  
+
+Detection threshold: 3.8415 (significance level: 0.05)
+
+Items detected as uniform DIF items:
+      
+ b2.2 
+ b3   
+ b5   
+ b7   
+ b10.2
+ b14  
+ b16  
+ b17  
+ b20  
+ b21  
+ b22  
+ b27  
+
+ 
+Effect size (Nagelkerke's R^2): 
+ 
+Effect size code: 
+ 'A': negligible effect 
+ 'B': moderate effect 
+ 'C': large effect 
+ 
+      R^2 ZT JG
+b2.1  0   A  A 
+b2.2  0   A  A 
+b3    0   A  A 
+b4    0   A  A 
+b5    0   A  A 
+b6    0   A  A 
+b7    0   A  A 
+b8    0   A  A 
+b10.1 0   A  A 
+b10.2 0   A  A 
+b14   0   A  A 
+b15   0   A  A 
+b16   0   A  A 
+b17   0   A  A 
+b18   0   A  A 
+b20   0   A  A 
+b21   0   A  A 
+b22   0   A  A 
+b23   0   A  A 
+b25   0   A  A 
+b26   0   A  A 
+b27   0   A  A 
+b28   0   A  A 
+b31   0   A  A 
+b32   0   A  A 
+
+Effect size codes: 
+ Zumbo &amp; Thomas (ZT): 0 'A' 0.13 'B' 0.26 'C' 1 
+ Jodoin &amp; Gierl (JG): 0 'A' 0.035 'B' 0.07 'C' 1 
+
+ Output was not captured! </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Logistická regrese: GY4 vs GY8</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>(LR2 <span class="ot">&lt;-</span> <span class="fu">difLogistic</span>(<span class="at">Data =</span> <span class="fu">as.data.frame</span>(Data_gy[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)]),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">group =</span> <span class="fu">as.factor</span>(Data_gy<span class="sc">$</span>smo16),       </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">type =</span> <span class="st">"udif"</span>, <span class="at">focal.name =</span> <span class="st">"1"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Detection of uniform Differential Item Functioning
+using Logistic regression method, without item purification
+and with LRT DIF statistic
+
+Matching variable: test score 
+ 
+No set of anchor items was provided 
+ 
+No p-value adjustment for multiple comparisons 
+ 
+Logistic regression DIF statistic: 
+ 
+      Stat.   P-value    
+b2.1   0.0351  0.8514    
+b2.2   3.8030  0.0512 .  
+b3     2.4857  0.1149    
+b4     1.7582  0.1849    
+b5    42.3033  0.0000 ***
+b6    30.6083  0.0000 ***
+b7     0.0002  0.9875    
+b8    13.2058  0.0003 ***
+b10.1  4.6571  0.0309 *  
+b10.2 16.6693  0.0000 ***
+b14    5.0345  0.0248 *  
+b15    0.1225  0.7263    
+b16    0.0987  0.7534    
+b17   11.4785  0.0007 ***
+b18    0.3139  0.5753    
+b20    3.8621  0.0494 *  
+b21   11.9551  0.0005 ***
+b22    3.6470  0.0562 .  
+b23    6.6038  0.0102 *  
+b25    0.0350  0.8515    
+b26    0.1161  0.7334    
+b27   44.2909  0.0000 ***
+b28    0.1011  0.7505    
+b31    3.3584  0.0669 .  
+b32   40.3452  0.0000 ***
+
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1  
+
+Detection threshold: 3.8415 (significance level: 0.05)
+
+Items detected as uniform DIF items:
+      
+ b5   
+ b6   
+ b8   
+ b10.1
+ b10.2
+ b14  
+ b17  
+ b20  
+ b21  
+ b23  
+ b27  
+ b32  
+
+ 
+Effect size (Nagelkerke's R^2): 
+ 
+Effect size code: 
+ 'A': negligible effect 
+ 'B': moderate effect 
+ 'C': large effect 
+ 
+      R^2    ZT JG
+b2.1  0.0000 A  A 
+b2.2  0.0000 A  A 
+b3    0.0001 A  A 
+b4    0.0000 A  A 
+b5    0.0000 A  A 
+b6    0.0000 A  A 
+b7    0.0000 A  A 
+b8    0.9298 C  C 
+b10.1 0.0000 A  A 
+b10.2 0.0000 A  A 
+b14   0.0000 A  A 
+b15   0.0000 A  A 
+b16   0.0000 A  A 
+b17   0.0000 A  A 
+b18   0.0000 A  A 
+b20   0.0000 A  A 
+b21   0.0000 A  A 
+b22   0.0002 A  A 
+b23   0.0003 A  A 
+b25   0.0000 A  A 
+b26   0.0000 A  A 
+b27   0.0000 A  A 
+b28   0.0000 A  A 
+b31   0.0000 A  A 
+b32   0.0000 A  A 
+
+Effect size codes: 
+ Zumbo &amp; Thomas (ZT): 0 'A' 0.13 'B' 0.26 'C' 1 
+ Jodoin &amp; Gierl (JG): 0 'A' 0.035 'B' 0.07 'C' 1 
+
+ Output was not captured! </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="dif-v-irt-2pl-model" class="level2">
+<h2 class="anchored" data-anchor-id="dif-v-irt-2pl-model">DIF v IRT – 2PL model</h2>
+<p>Otestujte DIF pomocí 2PL IRT modelu pro 1) prvomaturant vs.&nbsp;ostatní nebo 2) osmiletá vs.&nbsp;čtyřletá gymnázia. Použijte funkci “difNLR()” z balíčku “difNLR”.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Řešení
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Jakýkoliv DIF
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># IRT 2PL model – prvomaturant</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>(IRT1 <span class="ot">&lt;-</span> <span class="fu">difNLR</span>(<span class="at">Data =</span> Data[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)],</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">group =</span> Data<span class="sc">$</span>prvomaturant,       </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">focal.name =</span> <span class="st">"0"</span>, <span class="at">model =</span> <span class="st">"2PL"</span>, <span class="at">type =</span> <span class="st">"both"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Detection of both types of differential item functioning
+using the generalized logistic regression model
+
+Generalized logistic regression likelihood ratio chi-square statistics
+based on 2PL model 
+
+Parameters were estimated using non-linear least squares
+
+Item purification was not applied
+No p-value adjustment for multiple comparisons
+
+      Chisq-value P-value     
+b2.1   13.7812      0.0010 ** 
+b2.2   38.9050      0.0000 ***
+b3     39.5023      0.0000 ***
+b4     26.9433      0.0000 ***
+b5      4.7704      0.0921 .  
+b6      0.6291      0.7301    
+b7     24.0260      0.0000 ***
+b8     10.8276      0.0045 ** 
+b10.1   9.1140      0.0105 *  
+b10.2  21.7174      0.0000 ***
+b14    97.1147      0.0000 ***
+b15     4.8915      0.0867 .  
+b16    52.9792      0.0000 ***
+b17   190.0534      0.0000 ***
+b18     2.7274      0.2557    
+b20    16.5278      0.0003 ***
+b21    54.8542      0.0000 ***
+b22    51.0100      0.0000 ***
+b23    22.8665      0.0000 ***
+b25     6.5538      0.0377 *  
+b26     6.7066      0.0350 *  
+b27    43.7662      0.0000 ***
+b28     6.5086      0.0386 *  
+b31    39.7683      0.0000 ***
+b32    35.3179      0.0000 ***
+
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Detection thresholds: 5.9915 (significance level: 0.05)
+
+Items detected as DIF items:
+ b2.1
+ b2.2
+ b3
+ b4
+ b7
+ b8
+ b10.1
+ b10.2
+ b14
+ b16
+ b17
+ b20
+ b21
+ b22
+ b23
+ b25
+ b26
+ b27
+ b28
+ b31
+ b32</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># IRT 2PL model – GY4 vs GY8</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>(IRT2 <span class="ot">&lt;-</span> <span class="fu">difNLR</span>(<span class="at">Data =</span> Data_gy[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)],</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">group =</span> Data_gy<span class="sc">$</span>smo16,       </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">focal.name =</span> <span class="st">"1"</span>, <span class="at">model =</span> <span class="st">"2PL"</span>, <span class="at">type =</span> <span class="st">"both"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Detection of both types of differential item functioning
+using the generalized logistic regression model
+
+Generalized logistic regression likelihood ratio chi-square statistics
+based on 2PL model 
+
+Parameters were estimated using non-linear least squares
+
+Item purification was not applied
+No p-value adjustment for multiple comparisons
+
+      Chisq-value P-value    
+b2.1   1.2083      0.5466    
+b2.2   7.6104      0.0223 *  
+b3     4.5837      0.1011    
+b4     1.6480      0.4387    
+b5    47.7349      0.0000 ***
+b6    42.6930      0.0000 ***
+b7     6.8727      0.0322 *  
+b8    14.5499      0.0007 ***
+b10.1 11.9429      0.0026 ** 
+b10.2 42.9067      0.0000 ***
+b14   11.3655      0.0034 ** 
+b15    2.0299      0.3624    
+b16   21.1759      0.0000 ***
+b17   65.3639      0.0000 ***
+b18    7.1061      0.0286 *  
+b20   10.3675      0.0056 ** 
+b21   15.5397      0.0004 ***
+b22    5.9946      0.0499 *  
+b23   21.1286      0.0000 ***
+b25    6.6514      0.0359 *  
+b26    4.0713      0.1306    
+b27   44.6174      0.0000 ***
+b28    7.3256      0.0257 *  
+b31    3.2240      0.1995    
+b32   49.5997      0.0000 ***
+
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Detection thresholds: 5.9915 (significance level: 0.05)
+
+Items detected as DIF items:
+ b2.2
+ b5
+ b6
+ b7
+ b8
+ b10.1
+ b10.2
+ b14
+ b16
+ b17
+ b18
+ b20
+ b21
+ b22
+ b23
+ b25
+ b27
+ b28
+ b32</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Neuniformní DIF
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># IRT 2PL model – prvomaturant</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>(IRT1 <span class="ot">&lt;-</span> <span class="fu">difNLR</span>(<span class="at">Data =</span> Data[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)], <span class="at">group =</span> Data<span class="sc">$</span>prvomaturant, <span class="at">focal.name =</span> <span class="st">"0"</span>, <span class="at">model =</span> <span class="st">"2PL"</span>, <span class="at">type =</span> <span class="st">"nudif"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Detection of non-uniform differential item functioning
+using the generalized logistic regression model
+
+Generalized logistic regression likelihood ratio chi-square statistics
+based on 2PL model 
+
+Parameters were estimated using non-linear least squares
+
+Item purification was not applied
+No p-value adjustment for multiple comparisons
+
+      Chisq-value P-value    
+b2.1  13.2835      0.0003 ***
+b2.2  21.6948      0.0000 ***
+b3     0.2505      0.6167    
+b4    21.7631      0.0000 ***
+b5     2.5246      0.1121    
+b6     0.3672      0.5445    
+b7     0.1965      0.6575    
+b8     2.7701      0.0960 .  
+b10.1  7.2951      0.0069 ** 
+b10.2  4.7735      0.0289 *  
+b14   15.8485      0.0001 ***
+b15    0.0346      0.8524    
+b16   17.9527      0.0000 ***
+b17   55.2814      0.0000 ***
+b18    0.0069      0.9337    
+b20   12.1818      0.0005 ***
+b21   23.6804      0.0000 ***
+b22    5.1607      0.0231 *  
+b23   10.1322      0.0015 ** 
+b25    4.2848      0.0385 *  
+b26    6.5782      0.0103 *  
+b27    1.4330      0.2313    
+b28    2.2171      0.1365    
+b31   39.5265      0.0000 ***
+b32   35.3085      0.0000 ***
+
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Detection thresholds: 3.8415 (significance level: 0.05)
+
+Items detected as DIF items:
+ b2.1
+ b2.2
+ b4
+ b10.1
+ b10.2
+ b14
+ b16
+ b17
+ b20
+ b21
+ b22
+ b23
+ b25
+ b26
+ b31
+ b32</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># IRT 2PL model – GY4 vs GY8</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>(IRT2 <span class="ot">&lt;-</span> <span class="fu">difNLR</span>(<span class="at">Data =</span> Data_gy[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)], <span class="at">group =</span> Data_gy<span class="sc">$</span>smo16, <span class="at">focal.name =</span> <span class="st">"1"</span>, <span class="at">model =</span> <span class="st">"2PL"</span>, <span class="at">type =</span> <span class="st">"nudif"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Detection of non-uniform differential item functioning
+using the generalized logistic regression model
+
+Generalized logistic regression likelihood ratio chi-square statistics
+based on 2PL model 
+
+Parameters were estimated using non-linear least squares
+
+Item purification was not applied
+No p-value adjustment for multiple comparisons
+
+      Chisq-value P-value    
+b2.1   0.4161      0.5189    
+b2.2   4.5388      0.0331 *  
+b3     0.8930      0.3447    
+b4     1.2761      0.2586    
+b5     4.9903      0.0255 *  
+b6     0.0157      0.9001    
+b7     6.2147      0.0127 *  
+b8     0.9904      0.3196    
+b10.1  9.5057      0.0020 ** 
+b10.2 15.3435      0.0001 ***
+b14    8.9276      0.0028 ** 
+b15    1.2969      0.2548    
+b16   20.6970      0.0000 ***
+b17   44.6464      0.0000 ***
+b18    6.9824      0.0082 ** 
+b20    2.3676      0.1239    
+b21    4.1663      0.0412 *  
+b22    0.0630      0.8019    
+b23   18.5850      0.0000 ***
+b25    4.4781      0.0343 *  
+b26    0.7993      0.3713    
+b27    5.1943      0.0227 *  
+b28    6.3336      0.0118 *  
+b31    0.5002      0.4794    
+b32    0.2779      0.5981    
+
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Detection thresholds: 3.8415 (significance level: 0.05)
+
+Items detected as DIF items:
+ b2.2
+ b5
+ b7
+ b10.1
+ b10.2
+ b14
+ b16
+ b17
+ b18
+ b21
+ b23
+ b25
+ b27
+ b28</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Uniformní DIF
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># IRT 2PL model – prvomaturant</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>(IRT1 <span class="ot">&lt;-</span> <span class="fu">difNLR</span>(<span class="at">Data =</span> Data[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)], <span class="at">group =</span> Data<span class="sc">$</span>prvomaturant, <span class="at">focal.name =</span> <span class="st">"0"</span>, <span class="at">model =</span> <span class="st">"2PL"</span>, <span class="at">type =</span> <span class="st">"udif"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Detection of uniform differential item functioning
+using the generalized logistic regression model
+
+Generalized logistic regression likelihood ratio chi-square statistics
+based on 2PL model 
+
+Parameters were estimated using non-linear least squares
+
+Item purification was not applied
+No p-value adjustment for multiple comparisons
+
+      Chisq-value P-value     
+b2.1    0.4977      0.4805    
+b2.2   17.2102      0.0000 ***
+b3     39.2518      0.0000 ***
+b4      5.1802      0.0228 *  
+b5      2.2458      0.1340    
+b6      0.2619      0.6088    
+b7     23.8295      0.0000 ***
+b8      8.0575      0.0045 ** 
+b10.1   1.8189      0.1775    
+b10.2  16.9439      0.0000 ***
+b14    81.2661      0.0000 ***
+b15     4.8569      0.0275 *  
+b16    35.0265      0.0000 ***
+b17   134.7720      0.0000 ***
+b18     2.7205      0.0991 .  
+b20     4.3460      0.0371 *  
+b21    31.1738      0.0000 ***
+b22    45.8493      0.0000 ***
+b23    12.7344      0.0004 ***
+b25     2.2690      0.1320    
+b26     0.1284      0.7201    
+b27    42.3332      0.0000 ***
+b28     4.2914      0.0383 *  
+b31     0.2418      0.6229    
+b32     0.0094      0.9230    
+
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Detection thresholds: 3.8415 (significance level: 0.05)
+
+Items detected as DIF items:
+ b2.2
+ b3
+ b4
+ b7
+ b8
+ b10.2
+ b14
+ b15
+ b16
+ b17
+ b20
+ b21
+ b22
+ b23
+ b27
+ b28</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># IRT 2PL model – GY4 vs GY8</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --------------------</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>(IRT2 <span class="ot">&lt;-</span> <span class="fu">difNLR</span>(<span class="at">Data =</span> Data_gy[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)], <span class="at">group =</span> Data_gy<span class="sc">$</span>smo16, <span class="at">focal.name =</span> <span class="st">"1"</span>, <span class="at">model =</span> <span class="st">"2PL"</span>, <span class="at">type =</span> <span class="st">"udif"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Detection of uniform differential item functioning
+using the generalized logistic regression model
+
+Generalized logistic regression likelihood ratio chi-square statistics
+based on 2PL model 
+
+Parameters were estimated using non-linear least squares
+
+Item purification was not applied
+No p-value adjustment for multiple comparisons
+
+      Chisq-value P-value    
+b2.1   0.7922      0.3734    
+b2.2   3.0715      0.0797 .  
+b3     3.6907      0.0547 .  
+b4     0.3719      0.5420    
+b5    42.7446      0.0000 ***
+b6    42.6772      0.0000 ***
+b7     0.6581      0.4172    
+b8    13.5595      0.0002 ***
+b10.1  2.4372      0.1185    
+b10.2 27.5632      0.0000 ***
+b14    2.4379      0.1184    
+b15    0.7330      0.3919    
+b16    0.4789      0.4889    
+b17   20.7175      0.0000 ***
+b18    0.1237      0.7251    
+b20    7.9999      0.0047 ** 
+b21   11.3734      0.0007 ***
+b22    5.9316      0.0149 *  
+b23    2.5435      0.1107    
+b25    2.1733      0.1404    
+b26    3.2720      0.0705 .  
+b27   39.4232      0.0000 ***
+b28    0.9920      0.3193    
+b31    2.7238      0.0989 .  
+b32   49.3218      0.0000 ***
+
+Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Detection thresholds: 3.8415 (significance level: 0.05)
+
+Items detected as DIF items:
+ b5
+ b6
+ b8
+ b10.2
+ b17
+ b20
+ b21
+ b22
+ b27
+ b32</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="porovnání-metod" class="level2">
+<h2 class="anchored" data-anchor-id="porovnání-metod">Porovnání metod</h2>
+<ol type="1">
+<li>Které položky byly DIF ve všech třech metodách?<br>
+</li>
+<li>Které byly DIF jen v některých?<br>
+</li>
+<li>Co může způsobovat rozdíly mezi metodami?</li>
+</ol>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -569,8 +2093,8 @@ ul.task-list li input[type="checkbox"] {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./cviceni3.html" class="pagination-link" aria-label="Cvičení 3 - Sample sizes">
-        <span class="nav-page-text"><span class="chapter-title">Cvičení 3 - Sample sizes</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./cviceni3.html" class="pagination-link" aria-label="Cvičení 3 – Effect sizes">
+        <span class="nav-page-text"><span class="chapter-title">Cvičení 3 – Effect sizes</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
